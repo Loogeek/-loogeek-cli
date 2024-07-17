@@ -41,7 +41,7 @@ export default function createCLI() {
   })
 
   program.on('command:*', (obj) => {
-    log.error('未知的命令:', obj[0])
+    log.error(`未知的命令：${obj[0]}`)
   })
 
   return program
