@@ -13,7 +13,7 @@ const pkg = fse.readJsonSync(pkgPath)
 const LOWEST_NODE_VERSION = '14.0.0'
 
 function checkNodeVersion() {
-  log.version('node version', process.version)
+  log.verbose('node version', process.version)
   if (!semver.gte(process.version, LOWEST_NODE_VERSION))
     throw new Error('chalk')
 }

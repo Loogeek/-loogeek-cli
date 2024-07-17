@@ -1,0 +1,24 @@
+{
+  "name": "@loogeek/cli-init",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@loogeek/cli-command": "workspace:^",
+    "@loogeek/cli-utils": "workspace:^"
+  }
+}

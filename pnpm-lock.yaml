@@ -59,6 +59,9 @@ importers:
 
   packages/cli:
     dependencies:
+      '@loogeek/cli-init':
+        specifier: workspace:^
+        version: link:../init
       '@loogeek/cli-utils':
         specifier: workspace:^
         version: link:../utils
@@ -80,6 +83,17 @@ importers:
       semver:
         specifier: ^7.6.2
         version: 7.6.2
+
+  packages/command: {}
+
+  packages/init:
+    dependencies:
+      '@loogeek/cli-command':
+        specifier: workspace:^
+        version: link:../command
+      '@loogeek/cli-utils':
+        specifier: workspace:^
+        version: link:../utils
 
   packages/utils:
     dependencies:
