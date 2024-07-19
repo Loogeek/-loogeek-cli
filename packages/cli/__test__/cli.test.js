@@ -4,9 +4,7 @@ import { execa } from 'execa'
 import { expect, it } from 'vitest'
 
 const CLI = path.join(__dirname, '../bin/cli.js')
-function bin() {
-  return (...args) => execa(CLI, args)
-}
+const bin = () => (...args) => execa(CLI, args)
 
 // 测试运行错误的命令
 it('run error command', async () => {
