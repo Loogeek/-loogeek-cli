@@ -1,6 +1,6 @@
 import path from 'node:path'
 import { homedir } from 'node:os'
-import { getLatestVersion, log, makeInput, makeList } from '@loogeek/cli-utils'
+import { getLatestVersion, log, makeInput, makeList, printErrorLog, request } from '@loogeek/cli-utils'
 
 const ADD_TYPE_PROJECT = 'project'
 const ADD_TYPE_PAGE = 'page'
@@ -14,20 +14,20 @@ const ADD_TYPE = [
     value: ADD_TYPE_PAGE,
   },
 ]
-const ADD_TEMPLATE = [
-  {
-    name: 'vue3项目模板',
-    npmName: '@imooc.com/template-vue3',
-    version: '1.0.0',
-    value: 'template-vue3',
-  },
-  {
-    name: 'react18项目模板',
-    npmName: '@imooc.com/template-react18',
-    version: '1.0.0',
-    value: 'template-react18',
-  },
-]
+// const ADD_TEMPLATE = [
+//   {
+//     name: 'vue3项目模板',
+//     npmName: '@imooc.com/template-vue3',
+//     version: '1.0.0',
+//     value: 'template-vue3',
+//   },
+//   {
+//     name: 'react18项目模板',
+//     npmName: '@imooc.com/template-react18',
+//     version: '1.0.0',
+//     value: 'template-react18',
+//   },
+// ]
 
 const TEMP_HOME = '.loogeek-cli'
 
@@ -55,10 +55,18 @@ function getAddName() {
 }
 
 // 获取项目模板
-function getAddTemplate() {
+function getAddTemplate(addTemplate) {
   return makeList({
-    choices: ADD_TEMPLATE,
+    choices: addTemplate,
     message: '请选择项目模板',
+  })
+}
+
+// 选择所在团队
+function getAddTeam(team) {
+  return makeList({
+    choices: team.map(item => ({ name: item, value: item })),
+    message: '请选择团队',
   })
 }
 
@@ -67,11 +75,32 @@ function makeTargetPath() {
   return path.resolve(`${homedir()}/${TEMP_HOME}`, 'addTemplate')
 }
 
+// 通过API获取项目模板
+async function getTemplateFromAPI() {
+  try {
+    const data = await request({
+      url: '/v1/project',
+      method: 'get',
+    })
+    log.verbose('getTemplateFromAPI', data)
+    return data
+  }
+  catch (error) {
+    printErrorLog(error)
+
+    return null
+  }
+}
+
 export default async function createTemplate(name, opts) {
   const { type, template } = opts
   let addType // 创建项目名称
   let addName // 项目名称
   let selectedTemplate // 项目模板
+
+  const addTemplate = await getTemplateFromAPI()
+  if (!addTemplate)
+    throw new Error('项目模板不存在！')
 
   if (type)
     addType = type
@@ -89,14 +118,20 @@ export default async function createTemplate(name, opts) {
     log.verbose('addName', addName)
 
     if (template) {
-      selectedTemplate = ADD_TEMPLATE.find(tp => tp.value === template)
+      selectedTemplate = addTemplate.find(tp => tp.value === template)
       if (!selectedTemplate)
         throw new Error(`项目模板 ${template} 不存在！`)
     }
     else {
-      const addTemplate = await getAddTemplate()
-      log.verbose('addTemplate', addTemplate)
-      selectedTemplate = ADD_TEMPLATE.find(tp => tp.value === addTemplate)
+      // 获取团队信息
+      let teamList = addTemplate.map(t => t.team)
+      teamList = [...new Set(teamList)]
+      const addTeam = await getAddTeam(teamList)
+      log.verbose('addTeam', addTeam)
+
+      const curAddTemplate = await getAddTemplate(addTemplate.filter(t => t.team === addTeam))
+      log.verbose('curAddTemplate', curAddTemplate)
+      selectedTemplate = addTemplate.find(tp => tp.value === curAddTemplate)
       if (!selectedTemplate)
         throw new Error(`项目模板不存在！`)
     }

@@ -2,6 +2,7 @@ import isDebug from './isDebug.js'
 import log from './log.js'
 import { makeInput, makeList, makePassword } from './inquirer.js'
 import { getLatestVersion, getNpmInfo } from './npm.js'
+import request from './request.js'
 
 function printErrorLog(e, type) {
   if (isDebug())
@@ -19,4 +20,5 @@ export {
   getLatestVersion,
   getNpmInfo,
   printErrorLog,
+  request,
 }
