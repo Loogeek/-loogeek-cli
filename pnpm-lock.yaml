@@ -62,6 +62,9 @@ importers:
       '@loogeek/cli-init':
         specifier: workspace:^
         version: link:../init
+      '@loogeek/cli-install':
+        specifier: workspace:^
+        version: link:../install
       '@loogeek/cli-utils':
         specifier: workspace:^
         version: link:../utils
@@ -120,17 +123,38 @@ importers:
         specifier: ^5.0.0
         version: 5.0.0
 
+  packages/install:
+    dependencies:
+      '@loogeek/cli-command':
+        specifier: workspace:^
+        version: link:../command
+      '@loogeek/cli-utils':
+        specifier: workspace:^
+        version: link:../utils
+      ora:
+        specifier: ^8.0.1
+        version: 8.0.1
+
   packages/utils:
     dependencies:
       axios:
         specifier: ^1.7.2
         version: 1.7.2
+      execa:
+        specifier: ^9.3.0
+        version: 9.3.0
+      fs-extra:
+        specifier: ^11.2.0
+        version: 11.2.0
       inquirer:
         specifier: ^10.0.3
         version: 10.0.3
       npmlog:
         specifier: ^7.0.1
         version: 7.0.1
+      path-exists:
+        specifier: ^5.0.0
+        version: 5.0.0
       url-join:
         specifier: ^5.0.0
         version: 5.0.0

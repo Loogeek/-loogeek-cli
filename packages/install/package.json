@@ -1,5 +1,5 @@
 {
-  "name": "@loogeek/cli-utils",
+  "name": "@loogeek/cli-install",
   "type": "module",
   "version": "1.0.0",
   "description": "",
@@ -14,12 +14,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "axios": "^1.7.2",
-    "execa": "^9.3.0",
-    "fs-extra": "^11.2.0",
-    "inquirer": "^10.0.3",
-    "npmlog": "^7.0.1",
-    "path-exists": "^5.0.0",
-    "url-join": "^5.0.0"
+    "@loogeek/cli-command": "workspace:^",
+    "@loogeek/cli-utils": "workspace:^",
+    "ora": "^8.0.1"
   }
 }

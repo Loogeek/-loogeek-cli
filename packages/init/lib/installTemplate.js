@@ -31,7 +31,6 @@ async function ejsRender(targetPath, installDir, template, name) {
 
   let data = {}
   const pluginPath = getCachePluginPath(targetPath, template)
-  console.log(11111, ignore, targetPath, template, pluginPath)
   if (pathExistsSync(pluginPath)) {
     const pluginFn = (await import(pluginPath)).default
     const api = {

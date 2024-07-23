@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@loogeek/cli-init": "workspace:^",
+    "@loogeek/cli-install": "workspace:^",
     "@loogeek/cli-utils": "workspace:^",
     "chalk": "^5.3.0",
     "commander": "^12.1.0",
